@@ -1,69 +1,32 @@
-import React,{useEffect} from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import React,{useCallback,useState} from 'react'
+import Home from './pages/Home';
+import Game from './pages/Game';
 
-import {socket, createconnection} from './socket';
 
-import './styles.css';
-
-import ImageCard from './components/ImageCard';
-
+import{BrowserRouter as Router,Route,Switch } from 'react-router-dom';
 
 function App() {
-  
-  /*https://picsum.photos/id/0/1920/1080*/
+  const [name, setName] = useState('');
 
-  let urlList=[];
-  for (let i= 14; i< 26; i++) {
-    urlList.push(`https://picsum.photos/id/${i}/500`);
-  }
-  //createconnection();
-  //console.log('parent render')
-
-  
-  useEffect(() => {
-    //console.log('parent',socket)
-    createconnection();
-    //console.log('parent',socket)
-    console.log('parent useeffect')
-
-    socket.on('changed',(url,color)=>{
-      console.log(color)
-      document.getElementById(url).style.borderColor = color==='rgb(26, 115, 232)'?'transparent':(color==='transparent'?'rgb(26, 115, 232)':'rgb(26, 115, 232)');
-      console.log(document.getElementById(url).style.borderColor);
-    })
-
-  },[])
-  
-
+  const callBack = useCallback((name) => { setName(name); console.log(name); },[])
 
 
   return (
-    <div  className="background" >
-      <Container>
+    <Router>
+      <div>
+        <Switch>
 
-        <Typography component="div" style={{ backgroundColor: '#202023', height: '100vh' }} >
+          <Route path='/' exact>
+            <Home parentCall={callBack}/>
+          </Route>
 
-          <Grid container spacing={3}>
+          <Route path='/game'>
+            <Game who={ name }/>
+          </Route>
 
-            {
-              urlList.map( (url,index)=>{
-                return(
-                  <Grid key={index} item xs={12} sm={6} md={3} >
-                    <ImageCard url={url} />
-                  </Grid>
-                )           
-              })
-            }
-
-          </Grid>
-
-        </Typography>
-      
-      </Container>
-
-    </div>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

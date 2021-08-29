@@ -60,3 +60,18 @@ body{
 	border: 5px solid transparent;
 	border-radius: 10px;
 }
+
+.inp-1{
+	margin-left: 32%;
+	border-radius: 10px;
+    border-color: transparent;
+    box-sizing: border-box;
+    font-size: 30px;
+    font-style: italic;
+}
+
+.center{
+	color:#ffffff;
+	margin-left: 48%;
+	font-size: 40px;
+}
